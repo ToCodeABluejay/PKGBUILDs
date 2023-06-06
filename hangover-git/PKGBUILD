@@ -1,0 +1,44 @@
+# Maintainer: Gabriel Bauer <gabeb1277@gmail.com>
+
+pkgname=hangover-git
+pkgver=113eea5
+pkgrel=1
+pkgdesc="Hangover runs simple Win32 applications on arm64/x86_64 Linux and x86_64 Mac"
+arch=(x86_64 aarch64)
+url="https://github.com/AndreRH/hangover"
+license=(LGPL2.1)
+source=("git+$url")
+sha256sums=('SKIP')
+conflicts=(hangover)
+provides=(hangover)
+depends=()
+makedepends=(git wget binutils make clang)
+
+#pkgver(0.8.9)
+
+build() {
+	cd hangover
+	wget https://download.qemu.org/qemu-5.2.0.tar.xz
+	tar -xf qemu-5.2.0.tar.xz
+	cd qemu-5.2.0
+	patch -p1 < ../qemu/qemu-5.2-as-lib.patch
+	mkdir build
+	cd build
+	../configure --target-list=arm-linux-user,i386-linux-user
+	make
+	cd ../..
+	git clone https://github.com/AndreRH/wine.git --depth 1
+	mkdir -p wine/build
+	cd wine/build
+	../configure --disable-tests --with-mingw --enable-archs=i386,aarch64,arm
+	make -j$(nproc)
+	wget https://gist.githubusercontent.com/ToCodeABluejay/98752abf6da5975b54fa04ebfe0a6aaf/raw/1828b32810feedea7e5ff4de42637d6fcd6f7d98/hangover
+	wget https://gist.githubusercontent.com/ToCodeABluejay/fc884976a4083636714252e16eff3eb5/raw/7840fabadb12aea16a662899c8233ac4e51a307f/hangover.desktop
+	chmod +x hangover hangover.desktop
+}
+
+package() {
+  cp wine "$pkgdir/usr/share/bin"
+  cp hangover "$pkgdir/usr/share/bin"
+  cp hangover.desktop "$pkgdir/usr/share/applications"
+}

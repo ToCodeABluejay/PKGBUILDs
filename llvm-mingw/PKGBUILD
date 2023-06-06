@@ -1,0 +1,27 @@
+# Maintainer: Gabriel Bauer <gabeb1277@gmail.com>
+
+pkgname=llvm-mingw
+pkgver=16.0.5
+pkgrel=1
+pkgdesc="LLVM MinGW compilation"
+arch=(x86_64 aarch64)
+url="https://github.com/mstorsjo/llvm-mingw"
+license=(LGPL2.1)
+source=("git+$url")
+sha256sums=('SKIP')
+conflicts=()
+provides=(llvm-mingw)
+depends=()
+makedepends=(git wget binutils make clang)
+
+#pkgver(0.8.9)
+
+build() {
+	cd llvm-mingw
+	mkdir build
+	./build-all.sh build
+}
+
+package() {
+  cp build/* "$pkgdir/usr/bin"
+}
