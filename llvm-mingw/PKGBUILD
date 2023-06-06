@@ -14,14 +14,12 @@ provides=(llvm-mingw)
 depends=()
 makedepends=(git wget binutils make clang)
 
-#pkgver(0.8.9)
-
 build() {
+	export DESTDIR = "$pkgdir"
 	cd llvm-mingw
 	mkdir build
 	./build-all.sh build
 }
 
 package() {
-  cp build/* "$pkgdir/usr/bin"
 }
