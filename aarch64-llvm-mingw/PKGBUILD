@@ -1,0 +1,34 @@
+# Maintainer: Gabriel Bauer <gabeb1277@gmail.com>
+
+pkgname=aarch64-llvm-mingw
+pkgver=16.0.5
+pkgrel=1
+pkgdesc="LLVM MinGW compilation"
+arch=(aarch64)
+url="https://github.com/mstorsjo/llvm-mingw"
+license=(LGPL2.1)
+source=("https://github.com/mstorsjo/llvm-mingw/releases/download/20230603/llvm-mingw-20230603-ucrt-ubuntu-20.04-aarch64.tar.xz")
+sha256sums=('7f40dd15e21b2612a65d8ef586179b975df1f58c02c6c09189e91b40b96d060e')
+conflicts=()
+provides=(llvm-mingw)
+depends=(clang)
+makedepends=(tar)
+
+build() {
+	tar -xvf llvm-mingw-20230603-ucrt-ubuntu-20.04-aarch64.tar.xz
+}
+
+package() {
+	cd llvm-mingw-20230603-ucrt-ubuntu-20.04-aarch64
+	cd bin
+	rm analyze-build clang clang++ clang-cpp intercept-build scan-build-py
+	cd ..
+	cd lib
+	rm libLLVM.so libclang-cpp.so
+	cd clang
+	mv 16 15.0.7	# Current upstream version - libraries must align...update as needed
+	rm -rf 15.0.7/include	# Use existing includes...
+	rm -rf 15.0.7/share
+	cd ../..
+	cp -r . "$pkgdir/usr"
+}
