@@ -7,26 +7,26 @@ pkgdesc="Hangover runs simple Win32 applications on arm64/x86_64 Linux and x86_6
 arch=(x86_64 aarch64)
 url="https://github.com/AndreRH/hangover"
 license=(LGPL2.1)
-source=("git+$url")
-sha256sums=('SKIP')
-conflicts=(hangover)
-provides=(hangover)
+source=("git+$url"
+	"https://download.qemu.org/qemu-5.2.0.tar.xz")
+sha256sums=('SKIP'
+	'cb18d889b628fbe637672b0326789d9b0e3b8027e0445b936537c78549df17bc')
+conflicts=(hangover wine wine-stable wine-staging qemu)
+provides=(hangover wine)
 depends=()
-makedepends=(git wget binutils make clang)
-
-#pkgver(0.8.9)
+makedepends=(git binutils patch make llvm-mingw)
 
 build() {
-	cd hangover
-	wget https://download.qemu.org/qemu-5.2.0.tar.xz
+	export CC=clang
 	tar -xf qemu-5.2.0.tar.xz
 	cd qemu-5.2.0
-	patch -p1 < ../qemu/qemu-5.2-as-lib.patch
+	patch -p1 < ../hangover/qemu/qemu-5.2-as-lib.patch
 	mkdir build
 	cd build
 	../configure --target-list=arm-linux-user,i386-linux-user
 	make
 	cd ../..
+	cd hangover
 	git clone https://github.com/AndreRH/wine.git --depth 1
 	mkdir -p wine/build
 	cd wine/build
@@ -38,7 +38,8 @@ build() {
 }
 
 package() {
-  cp wine "$pkgdir/usr/share/bin"
-  cp hangover "$pkgdir/usr/share/bin"
-  cp hangover.desktop "$pkgdir/usr/share/applications"
+	export DESTDIR="$pkgdir"
+	make install
+	cd ../../../qemu-5.2.0/build
+	make install
 }
