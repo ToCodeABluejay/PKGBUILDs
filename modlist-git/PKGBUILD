@@ -11,7 +11,7 @@ source=("git+$url")
 sha256sums=('SKIP')
 conflicts=()
 provides=(modlist)
-depends=(python-pyqt5)
+depends=(python-pyqt5 dracut)
 makedepends=()
 
 package() {
