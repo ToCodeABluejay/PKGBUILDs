@@ -1,0 +1,21 @@
+# Maintainer: Gabriel Bauer <gabeb1277@gmail.com>
+
+pkgname=modlist-git
+pkgver=1
+pkgrel=1
+pkgdesc="Edit kernel module configuration"
+arch=(aarch64 x86_64 i386)
+url="https://github.com/ToCodeABluejay/ModList"
+license=(MIT)
+source=("git+$url")
+sha256sums=('SKIP')
+conflicts=()
+provides=(modlist)
+depends=(python-pyqt5)
+makedepends=()
+
+package() {
+	mkdir -p "$pkgdir/usr/bin"
+	cd ModList
+	cp modlist "$pkgdir/usr/bin"
+}
