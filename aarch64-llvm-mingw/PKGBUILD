@@ -9,8 +9,8 @@ url="https://github.com/mstorsjo/llvm-mingw"
 license=(LGPL2.1)
 source=("https://github.com/mstorsjo/llvm-mingw/releases/download/20230603/llvm-mingw-20230603-ucrt-ubuntu-20.04-aarch64.tar.xz")
 sha256sums=('7f40dd15e21b2612a65d8ef586179b975df1f58c02c6c09189e91b40b96d060e')
-conflicts=(clang)
-provides=(llvm-mingw)
+conflicts=()
+provides=(clang llvm-mingw)
 depends=()
 makedepends=(tar)
 

@@ -1,0 +1,37 @@
+# Maintainer: Gabriel Bauer <gabeb1277@gmail.com>
+
+_pkgname="kbd"
+pkgname="${_pkgname}-asahi"
+pkgver=2.6.0
+pkgrel=1
+pkgdesc="The kbd project contains utilities for managing Linux console (Linux console, virtual terminals, keyboard, etc.) – mainly, what they do is loading console fonts and keyboard maps."
+arch=(any)
+url="https://kbd-project.org/"
+license=('GPL2')
+depends=()
+makedepends=(
+	git
+	make
+	automake
+	autoconf
+	clang)
+source=("git+https://github.com/ToCodeABluejay/kbd.git")
+conflicts=("${_pkgname}")
+provides=(kbd)
+sha256sums=('SKIP')
+
+
+build() {
+	export CC="clang"
+	cd "${srcdir}/${_pkgname}"
+	./autogen.sh
+	./configure --prefix="${pkgdir}/usr/local"
+	make
+	make check
+}
+
+package() {
+	cd "${srcdir}/${_pkgname}"
+	make install
+	make installcheck
+}

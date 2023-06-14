@@ -1,4 +1,4 @@
-# Maintainer: ThatOneCalculator <kainoa@t1c.dev>
+# Maintainer: Gabriel Bauer <gabeb1277@gmail.com>
 
 _pkgname="hyprland"
 pkgname="${_pkgname}-asahi-git"
