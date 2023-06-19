@@ -49,7 +49,10 @@ makedepends=(
 	meson
 	vulkan-headers
 	wayland-protocols
-	xorgproto)
+	xorgproto
+ 	base-devel
+  	libtool
+   	bison)
 source=("${_pkgname}::git+https://github.com/hyprwm/Hyprland.git")
 conflicts=("${_pkgname}")
 provides=(hyprland)
