@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=Beta
+Name=Foldit
+GenericName=Protein Folding Game
+Comment=Foldit is a one-of-a-kind protein folding computer game developed by university scientists. By playing Foldit, you can contribute to advanced research on human health, cutting-edge bioengineering, and the inner workings of biology.
+Exec=/opt/Foldit/Foldit
+Terminal=false

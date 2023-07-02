@@ -1,0 +1,26 @@
+# Maintainer: Gabriel Bauer <gabeb1277@gmail.com>
+
+pkgname=foldit
+pkgver=1
+pkgrel=1
+pkgdesc="Foldit is a one-of-a-kind protein folding computer game developed by university scientists."
+arch=(x86_64)
+url="https://fold.it/"
+license=(LGPL2.1)
+source=("https://files.ipd.uw.edu/pub/foldit/Foldit-linux_x64.tar.gz")
+sha256sums=('SKIP')
+conflicts=()
+provides=()
+depends=()
+makedepends=(tar)
+
+build() {
+	tar -xvf Foldit-linux_x64.tar.gz
+}
+
+package() {
+	cp -r Foldit $pkgdir/opt/Foldit
+	chmod +x $pkgdir/opt/Foldit/Foldit
+	cp foldit.desktop $pkgdir/usr/share/applications/foldit.desktop
+	chmod +x $pkgdir/usr/share/applications/foldit.desktop
+}
